@@ -1,7 +1,8 @@
 {
     "PackageInformation": {
-        "SourceFolder": "Source",
+        "SetupType": "MSI \\ EXE",
         "SetupFile": "Setup.exe",
+        "SourceFolder": "Source",
         "OutputFolder": "Package",
         "IconFile": "Icon.png"
     },
@@ -12,8 +13,8 @@
         "Notes": "AppNote"
     },
     "Program": {
-        "InstallCommand": "Deploy-Application.exe Install",
-        "UninstallCommand": "Deploy-Application.exe Uninstall",
+        "InstallCommand": "",
+        "UninstallCommand": "",
         "InstallExperience": "system \\ user",
         "DeviceRestartBehavior": "suppress \\ force \\ basedOnReturnCode \\ allow"
     },
@@ -30,14 +31,6 @@
             "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\123",
             "ValueName": "DisplayVersion",
             "DetectionType": "exists \\ notExists",
-            "Check32BitOn64System": "false \\ true"
-        },
-        {
-            "Type": "Registry",
-            "DetectionMethod": "Existence",
-            "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\123",
-            "ValueName": "",
-            "DetectionType": "exists",
             "Check32BitOn64System": "false \\ true"
         }
     ],

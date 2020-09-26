@@ -1,7 +1,8 @@
 {
     "PackageInformation": {
-        "SourceFolder": "Source",
+        "SetupType": "MSI \\ EXE",
         "SetupFile": "Setup.exe",
+        "SourceFolder": "Source",
         "OutputFolder": "Package",
         "IconFile": "Icon.png"
     },
@@ -22,10 +23,6 @@
         "Architecture": "All \\ x64 \\ x86"
     },
     "CustomRequirementRule": [
-        {
-            "Type": "File",
-            "": ""
-        }
     ],
     "DetectionRule": [
         {

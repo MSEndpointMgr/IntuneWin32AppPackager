@@ -1,7 +1,8 @@
 {
     "PackageInformation": {
-        "SourceFolder": "Source",
+        "SetupType": "EXE",
         "SetupFile": "Setup.exe",
+        "SourceFolder": "Source",
         "OutputFolder": "Package",
         "IconFile": "Icon.png"
     },
@@ -12,8 +13,8 @@
         "Notes": "AppNote"
     },
     "Program": {
-        "InstallCommand": "Deploy-Application.exe Install",
-        "UninstallCommand": "Deploy-Application.exe Uninstall",
+        "InstallCommand": "Setup.exe /s",
+        "UninstallCommand": "Uninstall.exe /s",
         "InstallExperience": "system \\ user",
         "DeviceRestartBehavior": "suppress \\ force \\ basedOnReturnCode \\ allow"
     },
@@ -25,10 +26,10 @@
     ],
     "DetectionRule": [
         {
-            "Type": "MSI",
-            "ProductCode": "{00000000-0000-0000-0000-000000000000}",
-            "ProductVersionOperator": "notConfigured",
-            "ProductVersion": ""
+            "Type": "Script",
+            "ScriptFile": "C:\\Scripts\\File.ps1",
+            "EnforceSignatureCheck": "true \\ false",
+            "RunAs32Bit": "true \\ false"
         }
     ],
     "TenantInformation": {

@@ -1,7 +1,7 @@
 {
     "PackageInformation": {
-        "SetupType": "MSI \\ EXE",
-        "SetupFile": "Setup.exe",
+        "SetupType": "MSI",
+        "SetupFile": "Setup.msi",
         "SourceFolder": "Source",
         "OutputFolder": "Package",
         "IconFile": "Icon.png"
@@ -13,8 +13,6 @@
         "Notes": "AppNote"
     },
     "Program": {
-        "InstallCommand": "",
-        "UninstallCommand": "",
         "InstallExperience": "system \\ user",
         "DeviceRestartBehavior": "suppress \\ force \\ basedOnReturnCode \\ allow"
     },
@@ -26,13 +24,10 @@
     ],
     "DetectionRule": [
         {
-            "Type": "Registry",
-            "DetectionMethod": "StringComparison",
-            "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\123",
-            "ValueName": "DisplayVersion",
-            "Operator": "notEqual \\ lessThanOrEqual \\ lessThan \\ greaterThanOrEqual \\ greaterThan \\ equal",
-            "Value": "1.0.0",
-            "Check32BitOn64System": "false \\ true"
+            "Type": "MSI",
+            "ProductCode": "{00000000-0000-0000-0000-000000000000}",
+            "ProductVersionOperator": "notConfigured",
+            "ProductVersion": ""
         }
     ],
     "TenantInformation": {

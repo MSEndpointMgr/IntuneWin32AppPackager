@@ -5,6 +5,9 @@
 .DESCRIPTION
     Create a Win32 app in Microsoft Intune based on input from app manifest file.
 
+.PARAMETER Validate
+    Specify to validate manifest file configuration.
+
 .EXAMPLE
     .\Create-Win32App.ps1
 
@@ -18,6 +21,12 @@
     Version history:
     1.0.0 - (2020-09-26) Script created
 #>
+[CmdletBinding(SupportsShouldProcess = $true)]
+param(
+    [parameter(Mandatory = $false, HelpMessage = "Specify to validate manifest file configuration.")]
+    [ValidateNotNullOrEmpty()]
+    [switch]$Validate
+)
 Process {
     # Read app data from JSON manifest
     $AppDataFile = Join-Path -Path $PSScriptRoot -ChildPath "App.json"
@@ -28,8 +37,10 @@ Process {
     $OutputFolder = Join-Path -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.OutputFolder
     $AppIconFile = Join-Path -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.IconFile
 
-    # Connect and retrieve authentication token
-    Connect-MSIntuneGraph -TenantName $AppData.TenantInformation.Name -PromptBehavior $AppData.TenantInformation.PromptBehavior -ApplicationID $AppData.TenantInformation.ApplicationID -Verbose
+    if ($PSBoundParameters["Validate"] -eq $false) {
+        # Connect and retrieve authentication token
+        Connect-MSIntuneGraph -TenantName $AppData.TenantInformation.Name -PromptBehavior $AppData.TenantInformation.PromptBehavior -ApplicationID $AppData.TenantInformation.ApplicationID -Verbose
+    }
 
     # Create required .intunewin package from source folder
     $IntuneAppPackage = New-IntuneWin32AppPackage -SourceFolder $SourceFolder -SetupFile $AppData.PackageInformation.SetupFile -OutputFolder $OutputFolder -Verbose
@@ -261,7 +272,9 @@ Process {
                 $DetectionRuleArgs = @{
                     "ProductCode" = $DetectionRuleItem.ProductCode
                     "ProductVersionOperator" = $DetectionRuleItem.ProductVersionOperator
-                    "ProductVersion" = $DetectionRuleItem.ProductVersion
+                }
+                if (-not([string]::IsNullOrEmpty($DetectionRuleItem.ProductVersion))) {
+                    $DetectionRuleArgs.Add("ProductVersion", $DetectionRuleItem.ProductVersion)
                 }
                 $DetectionRule = New-IntuneWin32AppDetectionRuleMSI @DetectionRuleArgs
             }
@@ -272,7 +285,7 @@ Process {
                     "EnforceSignatureCheck" = $DetectionRuleItem.EnforceSignatureCheck
                     "RunAs32Bit" = $DetectionRuleItem.RunAs32Bit
                 }
-                New-IntuneWin32AppDetectionRuleScript @DetectionRuleArgs
+                $DetectionRule = New-IntuneWin32AppDetectionRuleScript @DetectionRuleArgs
             }
             "Registry" {
                 switch ($DetectionRuleItem.DetectionMethod) {
@@ -343,7 +356,6 @@ Process {
         "DisplayName" = $AppData.Information.DisplayName
         "Description" = $AppData.Information.Description
         "Publisher" = $AppData.Information.Publisher
-        "Notes" = $AppData.Information.Notes
         "InstallExperience" = $AppData.Program.InstallExperience
         "RestartBehavior" = $AppData.Program.DeviceRestartBehavior
         "DetectionRule" = $DetectionRules
@@ -355,6 +367,9 @@ Process {
     if (Test-Path -Path $AppIconFile) {
         $Win32AppArgs.Add("Icon", $Icon)
     }
+    if (-not([string]::IsNullOrEmpty($AppData.Information.Notes))) {
+        $Win32AppArgs.Add("Notes", $AppData.Information.Notes)
+    }
     if (-not([string]::IsNullOrEmpty($AppData.Program.InstallCommand))) {
         $Win32AppArgs.Add("InstallCommandLine", $AppData.Program.InstallCommand)
     }
@@ -362,6 +377,17 @@ Process {
         $Win32AppArgs.Add("UninstallCommandLine", $AppData.Program.UninstallCommand)
     }
 
-    # Create Win32 app
-    Add-IntuneWin32App @Win32AppArgs
+    if ($PSBoundParameters["Validate"]) {
+        if (-not([string]::IsNullOrEmpty($Win32AppArgs["Icon"]))) {
+            # Redact icon Base64 code for better visibility in validate context
+            $Win32AppArgs["Icon"] = $Win32AppArgs["Icon"].SubString(0,20) + "... //redacted for validation context//"
+        }
+
+        # Output manifest configuration
+        $Win32AppArgs | ConvertTo-Json
+    }
+    else {
+        # Create Win32 app
+        Add-IntuneWin32App @Win32AppArgs
+    }
 }
