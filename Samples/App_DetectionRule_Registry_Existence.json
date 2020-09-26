@@ -1,0 +1,49 @@
+{
+    "PackageInformation": {
+        "SourceFolder": "PSADT",
+        "SetupFile": "Deploy-Application.exe",
+        "OutputFolder": "Package",
+        "IconFile": "Icon.png"
+    },
+    "Information": {
+        "DisplayName": "AppName 1.0.0",
+        "Description": "Installs AppName 1.0.0",
+        "Publisher": "AppVendor",
+        "Notes": "AppNote"
+    },
+    "Program": {
+        "InstallCommand": "Deploy-Application.exe Install",
+        "UninstallCommand": "Deploy-Application.exe Uninstall",
+        "InstallExperience": "system \\ user",
+        "DeviceRestartBehavior": "suppress \\ force \\ basedOnReturnCode \\ allow"
+    },
+    "RequirementRule": {
+        "MinimumRequiredOperatingSystem": "1809",
+        "Architecture": "All \\ x64 \\ x86"
+    },
+    "CustomRequirementRule": [
+    ],
+    "DetectionRule": [
+        {
+            "Type": "Registry",
+            "DetectionMethod": "Existence",
+            "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\123",
+            "ValueName": "DisplayVersion",
+            "DetectionType": "exists \\ notExists",
+            "Check32BitOn64System": "false \\ true"
+        },
+        {
+            "Type": "Registry",
+            "DetectionMethod": "Existence",
+            "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\123",
+            "ValueName": "",
+            "DetectionType": "exists",
+            "Check32BitOn64System": "false \\ true"
+        }
+    ],
+    "TenantInformation": {
+        "Name": "tenant.onmicrosoft.com",
+        "PromptBehavior": "Always \\ Auto \\ Never",
+        "ApplicationID": "d1ddf0e4-d672-4dae-b554-9d5bdfd93547"
+    }
+}
