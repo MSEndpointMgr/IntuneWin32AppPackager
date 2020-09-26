@@ -1,7 +1,7 @@
 {
     "PackageInformation": {
-        "SourceFolder": "PSADT",
-        "SetupFile": "Deploy-Application.exe",
+        "SourceFolder": "Source",
+        "SetupFile": "Setup.exe",
         "OutputFolder": "Package",
         "IconFile": "Icon.png"
     },
@@ -26,8 +26,8 @@
     "DetectionRule": [
         {
             "Type": "MSI",
-            "ProductCode": "",
-            "Operator": "notConfigured \\ equal \\ notEqual \\ greaterThanOrEqual \\ greaterThan \\ lessThanOrEqual \\ lessThan",
+            "ProductCode": "{00000000-0000-0000-0000-000000000000}",
+            "ProductVersionOperator": "notConfigured",
             "ProductVersion": ""
         }
     ],

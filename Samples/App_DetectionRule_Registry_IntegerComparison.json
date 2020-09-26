@@ -1,7 +1,7 @@
 {
     "PackageInformation": {
-        "SourceFolder": "PSADT",
-        "SetupFile": "Deploy-Application.exe",
+        "SourceFolder": "Source",
+        "SetupFile": "Setup.exe",
         "OutputFolder": "Package",
         "IconFile": "Icon.png"
     },
