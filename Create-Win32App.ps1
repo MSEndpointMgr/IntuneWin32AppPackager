@@ -260,7 +260,7 @@ Process {
                 # Create a MSI installation based detection rule
                 $DetectionRuleArgs = @{
                     "ProductCode" = $DetectionRuleItem.ProductCode
-                    "Operator" = $DetectionRuleItem.Operator
+                    "ProductVersionOperator" = $DetectionRuleItem.ProductVersionOperator
                     "ProductVersion" = $DetectionRuleItem.ProductVersion
                 }
                 $DetectionRule = New-IntuneWin32AppDetectionRuleMSI @DetectionRuleArgs
