@@ -35,9 +35,10 @@ Process {
     # Required packaging variables
     $SourceFolder = Join-Path -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.SourceFolder
     $OutputFolder = Join-Path -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.OutputFolder
+    $ScriptsFolder = Join-Path -Path $PSScriptRoot -ChildPath "Scripts"
     $AppIconFile = Join-Path -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.IconFile
 
-    if ($PSBoundParameters["Validate"] -eq $false) {
+    if (-not($PSBoundParameters["Validate"])) {
         # Connect and retrieve authentication token
         Connect-MSIntuneGraph -TenantName $AppData.TenantInformation.Name -PromptBehavior $AppData.TenantInformation.PromptBehavior -ApplicationID $AppData.TenantInformation.ApplicationID -Verbose
     }
@@ -173,7 +174,7 @@ Process {
                             # Create a custom script based requirement rule
                             $RequirementRuleArgs = @{
                                 "StringOutputDataType" = $true
-                                "ScriptFile" = $AppData.CustomRequirementRule.ScriptFile
+                                "ScriptFile" = (Join-Path -Path $ScriptsFolder -ChildPath $AppData.CustomRequirementRule.ScriptFile)
                                 "ScriptContext" = $AppData.CustomRequirementRule.ScriptContext
                                 "StringComparisonOperator" = $AppData.CustomRequirementRule.Operator
                                 "StringValue" = $AppData.CustomRequirementRule.Value
@@ -281,7 +282,7 @@ Process {
             "Script" {
                 # Create a PowerShell script based detection rule
                 $DetectionRuleArgs = @{
-                    "ScriptFile" = $DetectionRuleItem.ScriptFile
+                    "ScriptFile" = (Join-Path -Path $ScriptsFolder -ChildPath $DetectionRuleItem.ScriptFile)
                     "EnforceSignatureCheck" = $DetectionRuleItem.EnforceSignatureCheck
                     "RunAs32Bit" = $DetectionRuleItem.RunAs32Bit
                 }
