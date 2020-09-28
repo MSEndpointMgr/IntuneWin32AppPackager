@@ -32,18 +32,42 @@ Install-Module -Name IntuneWin32App
 ```
 
 # Manifest configuration (App.json)
-Bla bla...
+Within the manifest file, there are several segments of configuration that controls different parts in the packaging framework. Below are sample configurations for each segment including their possible values. Since the manifest file is written in JSON, there's no built in commenting support system. Segments consists of static properties, such as PackageInformation for instance. Static properties within the manifest file should never be changed. Sub-properties such as SetupType for instance, are referred to as dynamic properties (meaning that they are named differently depending on the configuration scenario, e.g. MSI or EXE, or a detection rule based on a script or registry key). Some dynamic properties have a set of pre-defined values which can be used. Such dynamic properties are documented with their possible values, for instance as shown below:
+```Json
+"DeviceRestartBehavior": "suppress \\ force \\ basedOnReturnCode \\ allow"
+```
+Each possible value are separated with the '\\' character, where the desired value are kept and the rest are simply removed.
 
 ## PackageInformation
 This section is used to 
-
 ```Json
 "PackageInformation": {
-    "SetupType": "MSI",
-    "SetupFile": "7z1900-x64.msi",
+    "SetupType": "MSI \\ EXE",
+    "SetupFile": "Setup.exe",
     "SourceFolder": "Source",
     "OutputFolder": "Package",
     "IconFile": "Icon.png"
+}
+```
+
+## Information
+```Json
+"Information": {
+    "DisplayName": "AppName 1.0.0",
+    "Description": "Installs AppName 1.0.0",
+    "Publisher": "AppVendor",
+    "Notes": "AppNote"
+}
+```
+
+## Program
+
+```Json
+"Program": {
+    "InstallCommand": "<-- Only required when SetupType is set as EXE -->",
+    "UninstallCommand": "<-- Only required when SetupType is set as EXE -->",
+    "InstallExperience": "system \\ user",
+    "DeviceRestartBehavior": "suppress \\ force \\ basedOnReturnCode \\ allow"
 }
 ```
 

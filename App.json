@@ -13,8 +13,8 @@
         "Notes": "AppNote"
     },
     "Program": {
-        "InstallCommand": "Deploy-Application.exe Install",
-        "UninstallCommand": "Deploy-Application.exe Uninstall",
+        "InstallCommand": "<-- Only required when SetupType is set as EXE -->",
+        "UninstallCommand": "<-- Only required when SetupType is set as EXE -->",
         "InstallExperience": "system \\ user",
         "DeviceRestartBehavior": "suppress \\ force \\ basedOnReturnCode \\ allow"
     },
