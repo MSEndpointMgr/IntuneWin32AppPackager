@@ -50,20 +50,21 @@ Process {
     $RequirementRule = New-IntuneWin32AppRequirementRule -Architecture $AppData.RequirementRule.Architecture -MinimumSupportedOperatingSystem $AppData.RequirementRule.MinimumRequiredOperatingSystem
 
     # Create additional custom requirement rules
-    if ($AppData.CustomRequirementRule.Count -ge 1) {
-        $RequirementRules = New-Object -TypeName System.Collections.ArrayList
+    $CustomRequirementRuleCount = ($AppData.CustomRequirementRule | Measure-Object).Count
+    if ($CustomRequirementRuleCount -ge 1) {
+        $RequirementRules = New-Object -TypeName "System.Collections.ArrayList"
         foreach ($RequirementRuleItem in $AppData.CustomRequirementRule) {
-            switch ($AppData.CustomRequirementRule.Type) {
+            switch ($RequirementRuleItem.Type) {
                 "File" {
                     switch ($RequirementRuleItem.DetectionMethod) {
                         "Existence" {
                             # Create a custom file based requirement rule
                             $RequirementRuleArgs = @{
                                 "Existence" = $true
-                                "Path" = $AppData.CustomRequirementRule.Path
-                                "FileOrFolder" = $AppData.CustomRequirementRule.FileOrFolder
-                                "DetectionType" = $AppData.CustomRequirementRule.DetectionType
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "Path" = $RequirementRuleItem.Path
+                                "FileOrFolder" = $RequirementRuleItem.FileOrFolder
+                                "DetectionType" = $RequirementRuleItem.DetectionType
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
@@ -71,11 +72,11 @@ Process {
                             # Create a custom file based requirement rule
                             $RequirementRuleArgs = @{
                                 "DateModified" = $true
-                                "Path" = $AppData.CustomRequirementRule.Path
-                                "FileOrFolder" = $AppData.CustomRequirementRule.FileOrFolder
-                                "Operator" = $AppData.CustomRequirementRule.Operator
-                                "DateTimeValue" = $AppData.CustomRequirementRule.DateTimeValue
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "Path" = $RequirementRuleItem.Path
+                                "FileOrFolder" = $RequirementRuleItem.FileOrFolder
+                                "Operator" = $RequirementRuleItem.Operator
+                                "DateTimeValue" = $RequirementRuleItem.DateTimeValue
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
@@ -83,11 +84,11 @@ Process {
                             # Create a custom file based requirement rule
                             $RequirementRuleArgs = @{
                                 "DateCreated" = $true
-                                "Path" = $AppData.CustomRequirementRule.Path
-                                "FileOrFolder" = $AppData.CustomRequirementRule.FileOrFolder
-                                "Operator" = $AppData.CustomRequirementRule.Operator
-                                "DateTimeValue" = $AppData.CustomRequirementRule.DateTimeValue
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "Path" = $RequirementRuleItem.Path
+                                "FileOrFolder" = $RequirementRuleItem.FileOrFolder
+                                "Operator" = $RequirementRuleItem.Operator
+                                "DateTimeValue" = $RequirementRuleItem.DateTimeValue
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
@@ -95,11 +96,11 @@ Process {
                             # Create a custom file based requirement rule
                             $RequirementRuleArgs = @{
                                 "Version" = $true
-                                "Path" = $AppData.CustomRequirementRule.Path
-                                "FileOrFolder" = $AppData.CustomRequirementRule.FileOrFolder
-                                "Operator" = $AppData.CustomRequirementRule.Operator
-                                "VersionValue" = $AppData.CustomRequirementRule.VersionValue
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "Path" = $RequirementRuleItem.Path
+                                "FileOrFolder" = $RequirementRuleItem.FileOrFolder
+                                "Operator" = $RequirementRuleItem.Operator
+                                "VersionValue" = $RequirementRuleItem.VersionValue
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
@@ -107,11 +108,11 @@ Process {
                             # Create a custom file based requirement rule
                             $RequirementRuleArgs = @{
                                 "Size" = $true
-                                "Path" = $AppData.CustomRequirementRule.Path
-                                "FileOrFolder" = $AppData.CustomRequirementRule.FileOrFolder
-                                "Operator" = $AppData.CustomRequirementRule.Operator
-                                "SizeInMBValue" = $AppData.CustomRequirementRule.SizeInMBValue
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "Path" = $RequirementRuleItem.Path
+                                "FileOrFolder" = $RequirementRuleItem.FileOrFolder
+                                "Operator" = $RequirementRuleItem.Operator
+                                "SizeInMBValue" = $RequirementRuleItem.SizeInMBValue
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
@@ -123,10 +124,10 @@ Process {
                             # Create a custom registry based requirement rule
                             $RequirementRuleArgs = @{
                                 "Existence" = $true
-                                "KeyPath" = $AppData.CustomRequirementRule.KeyPath
-                                "ValueName" = $AppData.CustomRequirementRule.ValueName
-                                "DetectionType" = $AppData.CustomRequirementRule.DetectionType
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "KeyPath" = $RequirementRuleItem.KeyPath
+                                "ValueName" = $RequirementRuleItem.ValueName
+                                "DetectionType" = $RequirementRuleItem.DetectionType
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                         }
@@ -134,11 +135,11 @@ Process {
                             # Create a custom registry based requirement rule
                             $RequirementRuleArgs = @{
                                 "StringComparison" = $true
-                                "KeyPath" = $AppData.CustomRequirementRule.KeyPath
-                                "ValueName" = $AppData.CustomRequirementRule.ValueName
-                                "StringComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "StringComparisonValue" = $AppData.CustomRequirementRule.Value
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "KeyPath" = $RequirementRuleItem.KeyPath
+                                "ValueName" = $RequirementRuleItem.ValueName
+                                "StringComparisonOperator" = $RequirementRuleItem.Operator
+                                "StringComparisonValue" = $RequirementRuleItem.Value
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                         }
@@ -146,11 +147,11 @@ Process {
                             # Create a custom registry based requirement rule
                             $RequirementRuleArgs = @{
                                 "VersionComparison" = $true
-                                "KeyPath" = $AppData.CustomRequirementRule.KeyPath
-                                "ValueName" = $AppData.CustomRequirementRule.ValueName
-                                "VersionComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "VersionComparisonValue" = $AppData.CustomRequirementRule.Value
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "KeyPath" = $RequirementRuleItem.KeyPath
+                                "ValueName" = $RequirementRuleItem.ValueName
+                                "VersionComparisonOperator" = $RequirementRuleItem.Operator
+                                "VersionComparisonValue" = $RequirementRuleItem.Value
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                         }
@@ -158,11 +159,11 @@ Process {
                             # Create a custom registry based requirement rule
                             $RequirementRuleArgs = @{
                                 "IntegerComparison" = $true
-                                "KeyPath" = $AppData.CustomRequirementRule.KeyPath
-                                "ValueName" = $AppData.CustomRequirementRule.ValueName
-                                "IntegerComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "IntegerComparisonValue" = $AppData.CustomRequirementRule.Value
-                                "Check32BitOn64System" = $AppData.CustomRequirementRule.Check32BitOn64System
+                                "KeyPath" = $RequirementRuleItem.KeyPath
+                                "ValueName" = $RequirementRuleItem.ValueName
+                                "IntegerComparisonOperator" = $RequirementRuleItem.Operator
+                                "IntegerComparisonValue" = $RequirementRuleItem.Value
+                                "Check32BitOn64System" = $RequirementRuleItem.Check32BitOn64System
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                         }
@@ -174,12 +175,12 @@ Process {
                             # Create a custom script based requirement rule
                             $RequirementRuleArgs = @{
                                 "StringOutputDataType" = $true
-                                "ScriptFile" = (Join-Path -Path $ScriptsFolder -ChildPath $AppData.CustomRequirementRule.ScriptFile)
-                                "ScriptContext" = $AppData.CustomRequirementRule.ScriptContext
-                                "StringComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "StringValue" = $AppData.CustomRequirementRule.Value
-                                "RunAs32BitOn64System" = $AppData.CustomRequirementRule.RunAs32BitOn64System
-                                "EnforceSignatureCheck" = $AppData.CustomRequirementRule.EnforceSignatureCheck
+                                "ScriptFile" = (Join-Path -Path $ScriptsFolder -ChildPath $RequirementRuleItem.ScriptFile)
+                                "ScriptContext" = $RequirementRuleItem.ScriptContext
+                                "StringComparisonOperator" = $RequirementRuleItem.Operator
+                                "StringValue" = $RequirementRuleItem.Value
+                                "RunAs32BitOn64System" = [bool]$RequirementRuleItem.RunAs32BitOn64System
+                                "EnforceSignatureCheck" = [bool]$RequirementRuleItem.EnforceSignatureCheck
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
@@ -187,12 +188,12 @@ Process {
                             # Create a custom script based requirement rule
                             $RequirementRuleArgs = @{
                                 "IntegerOutputDataType" = $true
-                                "ScriptFile" = $AppData.CustomRequirementRule.ScriptFile
-                                "ScriptContext" = $AppData.CustomRequirementRule.ScriptContext
-                                "IntegerComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "IntegerValue" = $AppData.CustomRequirementRule.Value
-                                "RunAs32BitOn64System" = $AppData.CustomRequirementRule.RunAs32BitOn64System
-                                "EnforceSignatureCheck" = $AppData.CustomRequirementRule.EnforceSignatureCheck
+                                "ScriptFile" = $RequirementRuleItem.ScriptFile
+                                "ScriptContext" = $RequirementRuleItem.ScriptContext
+                                "IntegerComparisonOperator" = $RequirementRuleItem.Operator
+                                "IntegerValue" = $RequirementRuleItem.Value
+                                "RunAs32BitOn64System" = [bool]$RequirementRuleItem.RunAs32BitOn64System
+                                "EnforceSignatureCheck" = [bool]$RequirementRuleItem.EnforceSignatureCheck
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
@@ -200,12 +201,12 @@ Process {
                             # Create a custom script based requirement rule
                             $RequirementRuleArgs = @{
                                 "BooleanOutputDataType" = $true
-                                "ScriptFile" = $AppData.CustomRequirementRule.ScriptFile
-                                "ScriptContext" = $AppData.CustomRequirementRule.ScriptContext
-                                "BooleanComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "BooleanValue" = $AppData.CustomRequirementRule.Value
-                                "RunAs32BitOn64System" = $AppData.CustomRequirementRule.RunAs32BitOn64System
-                                "EnforceSignatureCheck" = $AppData.CustomRequirementRule.EnforceSignatureCheck
+                                "ScriptFile" = $RequirementRuleItem.ScriptFile
+                                "ScriptContext" = $RequirementRuleItem.ScriptContext
+                                "BooleanComparisonOperator" = $RequirementRuleItem.Operator
+                                "BooleanValue" = $RequirementRuleItem.Value
+                                "RunAs32BitOn64System" = [bool]$RequirementRuleItem.RunAs32BitOn64System
+                                "EnforceSignatureCheck" = [bool]$RequirementRuleItem.EnforceSignatureCheck
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
@@ -213,12 +214,12 @@ Process {
                             # Create a custom script based requirement rule
                             $RequirementRuleArgs = @{
                                 "DateTimeOutputDataType" = $true
-                                "ScriptFile" = $AppData.CustomRequirementRule.ScriptFile
-                                "ScriptContext" = $AppData.CustomRequirementRule.ScriptContext
-                                "DateTimeComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "DateTimeValue" = $AppData.CustomRequirementRule.Value
-                                "RunAs32BitOn64System" = $AppData.CustomRequirementRule.RunAs32BitOn64System
-                                "EnforceSignatureCheck" = $AppData.CustomRequirementRule.EnforceSignatureCheck
+                                "ScriptFile" = $RequirementRuleItem.ScriptFile
+                                "ScriptContext" = $RequirementRuleItem.ScriptContext
+                                "DateTimeComparisonOperator" = $RequirementRuleItem.Operator
+                                "DateTimeValue" = $RequirementRuleItem.Value
+                                "RunAs32BitOn64System" = [bool]$RequirementRuleItem.RunAs32BitOn64System
+                                "EnforceSignatureCheck" = [bool]$RequirementRuleItem.EnforceSignatureCheck
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
@@ -226,12 +227,12 @@ Process {
                             # Create a custom script based requirement rule
                             $RequirementRuleArgs = @{
                                 "FloatOutputDataType" = $true
-                                "ScriptFile" = $AppData.CustomRequirementRule.ScriptFile
-                                "ScriptContext" = $AppData.CustomRequirementRule.ScriptContext
-                                "FloatComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "FloatValue" = $AppData.CustomRequirementRule.Value
-                                "RunAs32BitOn64System" = $AppData.CustomRequirementRule.RunAs32BitOn64System
-                                "EnforceSignatureCheck" = $AppData.CustomRequirementRule.EnforceSignatureCheck
+                                "ScriptFile" = $RequirementRuleItem.ScriptFile
+                                "ScriptContext" = $RequirementRuleItem.ScriptContext
+                                "FloatComparisonOperator" = $RequirementRuleItem.Operator
+                                "FloatValue" = $RequirementRuleItem.Value
+                                "RunAs32BitOn64System" = [bool]$RequirementRuleItem.RunAs32BitOn64System
+                                "EnforceSignatureCheck" = [bool]$RequirementRuleItem.EnforceSignatureCheck
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
@@ -239,12 +240,12 @@ Process {
                             # Create a custom script based requirement rule
                             $RequirementRuleArgs = @{
                                 "VersionOutputDataType" = $true
-                                "ScriptFile" = $AppData.CustomRequirementRule.ScriptFile
-                                "ScriptContext" = $AppData.CustomRequirementRule.ScriptContext
-                                "VersionComparisonOperator" = $AppData.CustomRequirementRule.Operator
-                                "VersionValue" = $AppData.CustomRequirementRule.Value
-                                "RunAs32BitOn64System" = $AppData.CustomRequirementRule.RunAs32BitOn64System
-                                "EnforceSignatureCheck" = $AppData.CustomRequirementRule.EnforceSignatureCheck
+                                "ScriptFile" = $RequirementRuleItem.ScriptFile
+                                "ScriptContext" = $RequirementRuleItem.ScriptContext
+                                "VersionComparisonOperator" = $RequirementRuleItem.Operator
+                                "VersionValue" = $RequirementRuleItem.Value
+                                "RunAs32BitOn64System" = [bool]$RequirementRuleItem.RunAs32BitOn64System
+                                "EnforceSignatureCheck" = [bool]$RequirementRuleItem.EnforceSignatureCheck
                             }
                             $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
@@ -265,7 +266,7 @@ Process {
     }
 
     # Create detection rules
-    $DetectionRules = New-Object -TypeName System.Collections.ArrayList
+    $DetectionRules = New-Object -TypeName "System.Collections.ArrayList"
     foreach ($DetectionRuleItem in $AppData.DetectionRule) {
         switch ($DetectionRuleItem.Type) {
             "MSI" {
@@ -365,6 +366,9 @@ Process {
     }
 
     # Dynamically add additional parameters for Win32 app
+    if ($RequirementRules -ne $null) {
+        $Win32AppArgs.Add("AdditionalRequirementRule", $RequirementRules)
+    }
     if (Test-Path -Path $AppIconFile) {
         $Win32AppArgs.Add("Icon", $Icon)
     }
