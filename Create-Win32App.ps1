@@ -66,7 +66,6 @@ Process {
                                 "DetectionType" = $RequirementRuleItem.DetectionType
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
                         "DateModified" {
                             # Create a custom file based requirement rule
@@ -78,7 +77,6 @@ Process {
                                 "DateTimeValue" = $RequirementRuleItem.DateTimeValue
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
                         "DateCreated" {
                             # Create a custom file based requirement rule
@@ -90,7 +88,6 @@ Process {
                                 "DateTimeValue" = $RequirementRuleItem.DateTimeValue
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
                         "Version" {
                             # Create a custom file based requirement rule
@@ -102,7 +99,6 @@ Process {
                                 "VersionValue" = $RequirementRuleItem.VersionValue
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
                         "Size" {
                             # Create a custom file based requirement rule
@@ -114,9 +110,11 @@ Process {
                                 "SizeInMBValue" = $RequirementRuleItem.SizeInMBValue
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                         }
                     }
+
+                    # Create file based requirement rule
+                    $CustomRequirementRule = New-IntuneWin32AppRequirementRuleFile @RequirementRuleArgs
                 }
                 "Registry" {
                     switch ($RequirementRuleItem.DetectionMethod) {
@@ -129,7 +127,6 @@ Process {
                                 "DetectionType" = $RequirementRuleItem.DetectionType
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                         }
                         "StringComparison" {
                             # Create a custom registry based requirement rule
@@ -141,7 +138,6 @@ Process {
                                 "StringComparisonValue" = $RequirementRuleItem.Value
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                         }
                         "VersionComparison" {
                             # Create a custom registry based requirement rule
@@ -153,7 +149,6 @@ Process {
                                 "VersionComparisonValue" = $RequirementRuleItem.Value
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                         }
                         "IntegerComparison" {
                             # Create a custom registry based requirement rule
@@ -165,9 +160,11 @@ Process {
                                 "IntegerComparisonValue" = $RequirementRuleItem.Value
                                 "Check32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.Check32BitOn64System)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                         }
                     }
+
+                    # Create registry based requirement rule
+                    $CustomRequirementRule = New-IntuneWin32AppRequirementRuleRegistry @RequirementRuleArgs
                 }
                 "Script" {
                     switch ($RequirementRuleItem.DetectionMethod) {
@@ -182,7 +179,6 @@ Process {
                                 "RunAs32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.RunAs32BitOn64System)
                                 "EnforceSignatureCheck" = [System.Convert]::ToBoolean($RequirementRuleItem.EnforceSignatureCheck)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
                         "IntegerOutput" {
                             # Create a custom script based requirement rule
@@ -195,7 +191,6 @@ Process {
                                 "RunAs32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.RunAs32BitOn64System)
                                 "EnforceSignatureCheck" = [System.Convert]::ToBoolean($RequirementRuleItem.EnforceSignatureCheck)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
                         "BooleanOutput" {
                             # Create a custom script based requirement rule
@@ -208,7 +203,6 @@ Process {
                                 "RunAs32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.RunAs32BitOn64System)
                                 "EnforceSignatureCheck" = [System.Convert]::ToBoolean($RequirementRuleItem.EnforceSignatureCheck)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
                         "DateTimeOutput" {
                             # Create a custom script based requirement rule
@@ -221,7 +215,6 @@ Process {
                                 "RunAs32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.RunAs32BitOn64System)
                                 "EnforceSignatureCheck" = [System.Convert]::ToBoolean($RequirementRuleItem.EnforceSignatureCheck)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
                         "FloatOutput" {
                             # Create a custom script based requirement rule
@@ -234,7 +227,6 @@ Process {
                                 "RunAs32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.RunAs32BitOn64System)
                                 "EnforceSignatureCheck" = [System.Convert]::ToBoolean($RequirementRuleItem.EnforceSignatureCheck)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                         }
                         "VersionOutput" {
                             # Create a custom script based requirement rule
@@ -247,9 +239,12 @@ Process {
                                 "RunAs32BitOn64System" = [System.Convert]::ToBoolean($RequirementRuleItem.RunAs32BitOn64System)
                                 "EnforceSignatureCheck" = [System.Convert]::ToBoolean($RequirementRuleItem.EnforceSignatureCheck)
                             }
-                            $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
+                            
                         }
                     }
+
+                    # Create script based requirement rule
+                    $CustomRequirementRule = New-IntuneWin32AppRequirementRuleScript @RequirementRuleArgs
                 }
             }
 
@@ -278,6 +273,8 @@ Process {
                 if (-not([string]::IsNullOrEmpty($DetectionRuleItem.ProductVersion))) {
                     $DetectionRuleArgs.Add("ProductVersion", $DetectionRuleItem.ProductVersion)
                 }
+
+                # Create MSI based detection rule
                 $DetectionRule = New-IntuneWin32AppDetectionRuleMSI @DetectionRuleArgs
             }
             "Script" {
@@ -287,6 +284,8 @@ Process {
                     "EnforceSignatureCheck" = $DetectionRuleItem.EnforceSignatureCheck
                     "RunAs32Bit" = [System.Convert]::ToBoolean($DetectionRuleItem.RunAs32Bit)
                 }
+
+                # Create script based detection rule
                 $DetectionRule = New-IntuneWin32AppDetectionRuleScript @DetectionRuleArgs
             }
             "Registry" {
@@ -340,6 +339,67 @@ Process {
 
                 # Create registry based detection rule
                 $DetectionRule = New-IntuneWin32AppDetectionRuleRegistry @DetectionRuleArgs
+            }
+            "File" {
+                switch ($DetectionRuleItem.DetectionMethod) {
+                    "Existence" {
+                        # Create a custom file based requirement rule
+                        $DetectionRuleArgs = @{
+                            "Existence" = $true
+                            "Path" = $DetectionRuleItem.Path
+                            "FileOrFolder" = $DetectionRuleItem.FileOrFolder
+                            "DetectionType" = $DetectionRuleItem.DetectionType
+                            "Check32BitOn64System" = [System.Convert]::ToBoolean($DetectionRuleItem.Check32BitOn64System)
+                        }
+                    }
+                    "DateModified" {
+                        # Create a custom file based requirement rule
+                        $DetectionRuleArgs = @{
+                            "DateModified" = $true
+                            "Path" = $DetectionRuleItem.Path
+                            "FileOrFolder" = $DetectionRuleItem.FileOrFolder
+                            "Operator" = $DetectionRuleItem.Operator
+                            "DateTimeValue" = $DetectionRuleItem.DateTimeValue
+                            "Check32BitOn64System" = [System.Convert]::ToBoolean($DetectionRuleItem.Check32BitOn64System)
+                        }
+                    }
+                    "DateCreated" {
+                        # Create a custom file based requirement rule
+                        $DetectionRuleArgs = @{
+                            "DateCreated" = $true
+                            "Path" = $DetectionRuleItem.Path
+                            "FileOrFolder" = $DetectionRuleItem.FileOrFolder
+                            "Operator" = $DetectionRuleItem.Operator
+                            "DateTimeValue" = $DetectionRuleItem.DateTimeValue
+                            "Check32BitOn64System" = [System.Convert]::ToBoolean($DetectionRuleItem.Check32BitOn64System)
+                        }
+                    }
+                    "Version" {
+                        # Create a custom file based requirement rule
+                        $DetectionRuleArgs = @{
+                            "Version" = $true
+                            "Path" = $DetectionRuleItem.Path
+                            "FileOrFolder" = $DetectionRuleItem.FileOrFolder
+                            "Operator" = $DetectionRuleItem.Operator
+                            "VersionValue" = $DetectionRuleItem.VersionValue
+                            "Check32BitOn64System" = [System.Convert]::ToBoolean($DetectionRuleItem.Check32BitOn64System)
+                        }
+                    }
+                    "Size" {
+                        # Create a custom file based requirement rule
+                        $DetectionRuleArgs = @{
+                            "Size" = $true
+                            "Path" = $DetectionRuleItem.Path
+                            "FileOrFolder" = $DetectionRuleItem.FileOrFolder
+                            "Operator" = $DetectionRuleItem.Operator
+                            "SizeInMBValue" = $DetectionRuleItem.SizeInMBValue
+                            "Check32BitOn64System" = [System.Convert]::ToBoolean($DetectionRuleItem.Check32BitOn64System)
+                        }
+                    }
+                }
+
+                # Create file based detection rule
+                $DetectionRule = New-IntuneWin32AppDetectionRuleFile @DetectionRuleArgs
             }
         }
 
