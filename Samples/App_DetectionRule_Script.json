@@ -27,7 +27,7 @@
     "DetectionRule": [
         {
             "Type": "Script",
-            "ScriptFile": "C:\\Scripts\\File.ps1",
+            "ScriptFile": "File.ps1",
             "EnforceSignatureCheck": "true \\ false",
             "RunAs32Bit": "true \\ false"
         }

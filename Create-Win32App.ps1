@@ -281,7 +281,7 @@ Process {
                 # Create a PowerShell script based detection rule
                 $DetectionRuleArgs = @{
                     "ScriptFile" = (Join-Path -Path $ScriptsFolder -ChildPath $DetectionRuleItem.ScriptFile)
-                    "EnforceSignatureCheck" = $DetectionRuleItem.EnforceSignatureCheck
+                    "EnforceSignatureCheck" = [System.Convert]::ToBoolean($DetectionRuleItem.EnforceSignatureCheck)
                     "RunAs32Bit" = [System.Convert]::ToBoolean($DetectionRuleItem.RunAs32Bit)
                 }
 
