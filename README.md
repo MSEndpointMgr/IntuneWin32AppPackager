@@ -39,7 +39,7 @@ Within the manifest file, there are several segments of configuration that contr
 Each possible value are separated with the '\\' character, where the desired value are kept and the rest are simply removed.
 
 ## PackageInformation
-This section is used to 
+Below block is the main information related to the packaging of a Win32 app, like the setup file, content source folder and output folder for the .intunewin file, but it also contains other information such as the icon file to use and last but not least, the overall packaging method as either EXE or MSI.
 ```Json
 "PackageInformation": {
     "SetupType": "MSI \\ EXE",
@@ -51,6 +51,7 @@ This section is used to
 ```
 
 ## Information
+This block contains the basic Win32 app information, such as the display name, description and publisher. All properties are required to have a value, with an exception for the Notes property.
 ```Json
 "Information": {
     "DisplayName": "AppName 1.0.0",
@@ -61,7 +62,7 @@ This section is used to
 ```
 
 ## Program
-
+This block contains the desired program information of a Win32 app. InstallCommand and UninstallCommand are only required when SetupType in the PackageInformation section is set to EXE, otherwise the packaging creation process will automatically construct the installation and uninstallation commands for MSI installations. In addition to this, the install experience, for the installation to run in either System or User context including the restart behavior are specified here.
 ```Json
 "Program": {
     "InstallCommand": "<-- Only required when SetupType is set as EXE -->",
@@ -71,8 +72,12 @@ This section is used to
 }
 ```
 
-## Detection Rule sample
+## DetectionRule
+As you may know, the Win32 app model provides several methods on detecting of the application was installed.
 
+
+## DetectionRule - Registry
+bla bla
 ```Json
 {
     "Type": "Registry",
