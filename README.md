@@ -73,11 +73,75 @@ This block contains the desired program information of a Win32 app. InstallComma
 ```
 
 ## DetectionRule
-As you may know, the Win32 app model provides several methods on detecting of the application was installed.
+As you may know, the Win32 app model provides several methods on detecting if the application is or have already been installed. IntuneWin32AppPackager framework supports all potential detection rules, such as MSI, File, Registry or Script based. It's supported to add multiple detection rules can be added to the manifest file.
 
+NOTE: It's not supported to add multiple detection rules when a Script detection rule is used.
 
 ## DetectionRule - Registry
-bla bla
+A Registry detection rule type can be of different detection methods, such as:
+- Existence
+- IntegerComparison
+- StringComparison
+- VersionComparison
+
+Below are example configurations for each supported detection method for a Registry detection rule.
+
+### DetectionRule - Registry - Existence
+```Json
+{
+    "Type": "Registry",
+    "DetectionMethod": "Existence",
+    "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Key",
+    "ValueName": "DisplayVersion",
+    "DetectionType": "exists \\ notExists",
+    "Check32BitOn64System": "false \\ true"
+}
+```
+### DetectionRule - Registry - IntegerComparison
+```Json
+{
+    "Type": "Registry",
+    "DetectionMethod": "IntegerComparison",
+    "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Key",
+    "ValueName": "DisplayVersion",
+    "Operator": "notEqual \\ lessThanOrEqual \\ lessThan \\ greaterThanOrEqual \\ greaterThan \\ equal",
+    "Value": "1",
+    "Check32BitOn64System": "false \\ true"
+}
+```
+### DetectionRule - Registry - StringComparison
+```Json
+{
+    "Type": "Registry",
+    "DetectionMethod": "StringComparison",
+    "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Key",
+    "ValueName": "DisplayVersion",
+    "Operator": "notEqual \\ equal",
+    "Value": "1.0.0",
+    "Check32BitOn64System": "false \\ true"
+}
+```
+### DetectionRule - Registry - StringComparison
+```Json
+{
+    "Type": "Registry",
+    "DetectionMethod": "VersionComparison",
+    "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Key",
+    "ValueName": "DisplayVersion",
+    "Operator": "notEqual \\ lessThanOrEqual \\ lessThan \\ greaterThanOrEqual \\ greaterThan \\ equal",
+    "Value": "1.0.0",
+    "Check32BitOn64System": "false \\ true"
+}
+```
+
+## DetectionRule - File
+A File detection rule type can be of different detection methods, such as:
+- Existence
+- DateModified
+- DateCreated
+- Version
+- Size
+
 ```Json
 {
     "Type": "Registry",

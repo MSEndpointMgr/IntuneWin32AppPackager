@@ -27,7 +27,7 @@
     "DetectionRule": [
         {
             "Type": "Registry",
-            "DetectionMethod": "StringComparison",
+            "DetectionMethod": "VersionComparison",
             "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\123",
             "ValueName": "DisplayVersion",
             "Operator": "notEqual \\ lessThanOrEqual \\ lessThan \\ greaterThanOrEqual \\ greaterThan \\ equal",
