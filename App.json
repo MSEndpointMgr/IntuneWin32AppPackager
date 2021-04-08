@@ -33,6 +33,32 @@
             "Operator": "greaterThanOrEqual",
             "Value": "1.0.0",
             "Check32BitOn64System": "false"
+        },
+        {
+            "Type": "Registry",
+            "DetectionMethod": "Existence",
+            "KeyPath": "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\123",
+            "ValueName": "<reg_value_name>",
+            "DetectionType": "exists \\ notExists",
+            "Check32BitOn64System": "false \\ true"
+        },
+        {
+            "Type": "MSI",
+            "ProductCode": "<guid>",
+            "ProductVersionOperator": "notConfigured \\ equal \\ notEqual \\ greaterThanOrEqual \\ greaterThan \\ lessThanOrEqual \\ lessThan",
+            "ProductVersion": "1.0.0"
+        },
+        {
+            "Type": "MSI",
+            "ProductCode": "<guid>",
+            "ProductVersionOperator": "notConfigured",
+            "ProductVersion": ""
+        },
+        {
+            "Type": "Script",
+            "ScriptFile": "detection.ps1",
+            "EnforceSignatureCheck": "true \\ false",
+            "RunAs32Bit": "true \\ false"
         }
     ],
     "TenantInformation": {
