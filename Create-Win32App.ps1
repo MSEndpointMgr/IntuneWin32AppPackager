@@ -5,42 +5,94 @@
 .DESCRIPTION
     Create a Win32 app in Microsoft Intune based on input from app manifest file.
 
+.PARAMETER AppFolder
+    Specify the name of the folder that contains the application. App folders should be located in the same root directory as the script file
+
 .PARAMETER Validate
     Specify to validate manifest file configuration.
 
 .EXAMPLE
+    #Script located with the app
     .\Create-Win32App.ps1
+
+    #Script located in the root of the app directory (one folder up)
+    .\Create-Win32App.ps1 -AppFolder "Microsoft Visual Studio Code"
 
 .NOTES
     FileName:    Create-Win32App.ps1
     Author:      Nickolaj Andersen
     Contact:     @NickolajA
     Created:     2020-09-26
-    Updated:     2020-09-26
+    Updated:     2021-11-02
 
     Version history:
     1.0.0 - (2020-09-26) Script created
+    1.0.1 - (2020-10-06) Added the AppFolder parameter. Allows for a single copy of the script in the root of the app directory rather than a separate copy in each app folder.
+    1.0.2 - (2021-11-02) Updated the Connect-MSIntuneGraph parameters
 #>
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
+    [parameter(Mandatory = $false, HelpMessage = "Specify the name of the folder that contains the application.")]
+    [ValidateScript({
+        if (!("$PSScriptRoot\$_" | Test-Path)) {
+            throw "The specified AppFolder ""$_"" does not exist"
+        }
+        if (!("$PSScriptRoot\$_" | Test-Path -PathType Container)) {
+            throw "The specified AppFolder ""$_"" must be a folder"
+        }
+        return $true
+    })]
+    [String]$AppFolder,
     [parameter(Mandatory = $false, HelpMessage = "Specify to validate manifest file configuration.")]
     [ValidateNotNullOrEmpty()]
     [switch]$Validate
 )
 Process {
+    Function Set-PackagingVariable {
+        param(
+            [parameter(Mandatory = $true)]
+            [ValidateNotNullOrEmpty()]
+            [String]$Path,
+            [parameter(Mandatory = $true)]
+            [ValidateNotNullOrEmpty()]
+            [String]$ChildPath
+        )
+
+        if (Test-Path $Path\$ChildPath) {
+            $ReturnData = Join-Path -Path $Path -ChildPath $ChildPath
+        }
+        else {
+            throw "Unable to find $Path\$ChildPath"
+        }
+        return $ReturnData
+    }
+
     # Read app data from JSON manifest
-    $AppDataFile = Join-Path -Path $PSScriptRoot -ChildPath "App.json"
+    if ($AppFolder) {
+        $AppDataFile = Set-PackagingVariable -Path "$PSScriptRoot\$AppFolder" -ChildPath "App.json"
+    }
+    else {
+        $AppDataFile = Set-PackagingVariable -Path $PSScriptRoot -ChildPath "App.json"
+    }
     $AppData = Get-Content -Path $AppDataFile | ConvertFrom-Json
 
     # Required packaging variables
-    $SourceFolder = Join-Path -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.SourceFolder
-    $OutputFolder = Join-Path -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.OutputFolder
-    $ScriptsFolder = Join-Path -Path $PSScriptRoot -ChildPath "Scripts"
-    $AppIconFile = Join-Path -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.IconFile
+    if ($AppFolder) {
+        $SourceFolder = Set-PackagingVariable -Path "$PSScriptRoot\$AppFolder" -ChildPath $AppData.PackageInformation.SourceFolder
+        $OutputFolder = Set-PackagingVariable -Path "$PSScriptRoot\$AppFolder" -ChildPath $AppData.PackageInformation.OutputFolder
+        $ScriptsFolder = Set-PackagingVariable -Path "$PSScriptRoot\$AppFolder" -ChildPath "Scripts"
+        $AppIconFile = Set-PackagingVariable -Path "$PSScriptRoot\$AppFolder" -ChildPath $AppData.PackageInformation.IconFile
+    }
+    else {
+        $SourceFolder = Set-PackagingVariable -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.SourceFolder
+        $OutputFolder = Set-PackagingVariable -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.OutputFolder
+        $ScriptsFolder = Set-PackagingVariable -Path $PSScriptRoot -ChildPath "Scripts"
+        $AppIconFile = Set-PackagingVariable -Path $PSScriptRoot -ChildPath $AppData.PackageInformation.IconFile
+    }
 
     if (-not($PSBoundParameters["Validate"])) {
         # Connect and retrieve authentication token
-        Connect-MSIntuneGraph -TenantName $AppData.TenantInformation.Name -PromptBehavior $AppData.TenantInformation.PromptBehavior -ApplicationID $AppData.TenantInformation.ApplicationID -Verbose
+        Connect-MSIntuneGraph -TenantId $AppData.TenantInformation.ID -Verbose
     }
 
     # Create required .intunewin package from source folder
